@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Wanikani Katakana Madness
+// @name         WaniKani Katakana Madness
 // @author       Luke-Filewalker
 // @namespace    https://greasyfork.org/en/scripts/26481-wanikani-katakana-madness
 // @include      https://www.wanikani.com/*
