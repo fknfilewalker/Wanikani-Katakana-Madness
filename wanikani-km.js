@@ -4,7 +4,7 @@
 // @namespace    https://greasyfork.org/en/scripts/26481-wanikani-katakana-madness
 // @include      https://www.wanikani.com/*
 // @include      http://www.wanikani.com/*
-// @version      1.01
+// @version      1.0.1
 // @description  Transforms everything related to on'yomi into katakana
 // @run-at       document-end
 // @grant        none
@@ -29,26 +29,14 @@ var kanjiYomiREALITY = {"湧":1,"聡":1,"之":0,"陥":1,"欄":1,"頂":1,"惰":1,
 var hiraToKata = {"め": "メ", "む": "ム", "ゃ": "ャ", "も": "モ", "ゅ": "ュ", "や": "ヤ", "ょ": "ョ", "ゆ": "ユ", "ら": "ラ", "よ": "ヨ", "る": "ル", "り": "リ", "ろ": "ロ", "れ": "レ", "わ": "ワ", "ん": "ン", "を": "ヲ", "あ": "ア", "い": "イ", "う": "ウ", "え": "エ", "か": "カ", "お": "オ", "き": "キ", "が": "ガ", "く": "ク", "ぎ": "ギ", "け": "ケ", "ぐ": "グ", "こ": "コ", "げ": "ゲ", "さ": "サ", "ご": "ゴ", "し": "シ", "ざ": "ザ", "す": "ス", "じ": "ジ", "せ": "セ", "ず": "ズ", "そ": "ソ", "ぜ": "ゼ", "た": "タ", "ぞ": "ゾ", "ち": "チ", "だ": "ダ", "っ": "ッ", "ぢ": "ヂ", "づ": "ヅ", "つ": "ツ", "で": "デ", "て": "テ", "ど": "ド", "と": "ト", "に": "ニ", "な": "ナ", "ね": "ネ", "ぬ": "ヌ", "は": "ハ", "の": "ノ", "ぱ": "パ", "ば": "バ", "び": "ビ", "ひ": "ヒ", "ふ": "フ", "ぴ": "ピ", "ぷ": "プ", "ぶ": "ブ", "べ": "ベ", "へ": "ヘ", "ほ": "ホ", "ぺ": "ペ", "ぽ": "ポ", "ぼ": "ボ", "み": "ミ", "ま": "マ"};
 var kataToHira = {"メ": "め", "ム": "む", "ャ": "ゃ", "モ": "も", "ュ": "ゅ", "ヤ": "や", "ョ": "ょ", "ユ": "ゆ", "ラ": "ら", "ヨ": "よ", "ル": "る", "リ": "り", "ロ": "ろ", "レ": "れ", "ワ": "わ", "ン": "ん", "ヲ": "を", "ア": "あ", "イ": "い", "ウ": "う", "エ": "え", "カ": "か", "オ": "お", "キ": "き", "ガ": "が", "ク": "く", "ギ": "ぎ", "ケ": "け", "グ": "ぐ", "コ": "こ", "ゲ": "げ", "サ": "さ", "ゴ": "ご", "シ": "し", "ザ": "ざ", "ス": "す", "ジ": "じ", "セ": "せ", "ズ": "ず", "ソ": "そ", "ゼ": "ぜ", "タ": "た", "ゾ": "ぞ", "チ": "ち", "ダ": "だ", "ッ": "っ", "ヂ": "ぢ", "ヅ": "づ", "ツ": "つ", "デ": "で", "テ": "て", "ド": "ど", "ト": "と", "ニ": "に", "ナ": "な", "ネ": "ね", "ヌ": "ぬ", "ハ": "は", "ノ": "の", "パ": "ぱ", "バ": "ば", "ビ": "び", "ヒ": "ひ", "フ": "ふ", "ピ": "ぴ", "プ": "ぷ", "ブ": "ぶ", "ベ": "べ", "ヘ": "へ", "ホ": "ほ", "ペ": "ぺ", "ポ": "ぽ", "ボ": "ぼ", "ミ": "み", "マ": "ま"};
 
-if (/dashboard/.test(document.URL) || document.URL == "http://www.wanikani.com/" || document.URL == "https://www.wanikani.com/" || /\/lattice\//.test(document.URL)) // Homepage and lattice
+if (/dashboard/.test(document.URL) || document.URL == "http://www.wanikani.com/" || document.URL == "https://www.wanikani.com/" || /\/lattice\/kanji/.test(document.URL)) // Homepage and lattice
 {
     var replacePopup = function()
     {
-        if (isOnyomiAll($(this).text()) == 1) $(this).attr(('data-original-title'), convertToKata($(this).attr('data-original-title')));
+        if ( isOnyomiAll($(this).text()) == 1) $(this).attr(('data-original-title'), convertToKata($(this).attr('data-original-title')) );
     };
     $('.lattice-single-character a[data-original-title]').each(replacePopup);
 
-    // Homepage search results
-    if(!/\/lattice\//.test(document.URL)) {
-        var searchChange = function() {
-            if(isOnyomiAll($(this).find('span').text())) {
-                $(this).find('li').eq(0).text(convertToKata($(this).find('li').eq(0).text()));
-            }
-        };
-        var observeMe = $('.search-results')[0];
-        observeDOM()( observeMe ,function() {
-            $('.search-results #kanji-').each(searchChange);
-        });
-    }
 }
 else if (/\/kanji\//.test(document.URL)) // Kanji detail page
 {
@@ -103,10 +91,23 @@ else if (/\/level\//.test(document.URL)) // Level page
 }
 else if (/review\/session/.test(document.URL)) // Review test page
 {
+    answerChecker.oldIsAsciiPresent = answerChecker.isAsciiPresent;
+    answerChecker.isAsciiPresent = function(e) {
+        // this is for trailing N to ン
+        if(e[e.length-1] === 'N') {
+            e = e.substr(0, e.length-1) + 'ン' + e.substr(e.length);
+        }
+        return answerChecker.oldIsAsciiPresent(e);
+    };
+
     answerChecker.oldEvaluate = answerChecker.evaluate;
     answerChecker.evaluate = function(e,t) {
         //console.log($.jStorage.get('currentItem'));
-        if(isOnyomiReview()){
+        // this is for trailing N to ン
+        if(e === "reading" && t[t.length-1] === 'N') {
+            t = t.substr(0, t.length-1) + 'ン' + t.substr(t.length);
+        }
+        if(isOnyomiReview()) {
             for (var i = 0; i < $.jStorage.get('currentItem').on.length; i++) {
                 $.jStorage.get('currentItem').on[i] = convertToKata($.jStorage.get('currentItem').on[i]);
             }
@@ -126,6 +127,17 @@ else if (/review\/session/.test(document.URL)) // Review test page
         if(isOnyomiReview()) {
             $('#item-info-reading > span').text(convertToKata($('#item-info-reading > span').text()));
         }
+    });
+
+    // change last 10 items
+    var last10Change = function () {
+        if(isOnyomiAll($(this).find('li').eq(0).text())){
+            $(this).find('li').eq(1).text(convertToKata($(this).find('li').eq(1).text()));
+        }
+    };
+    var observeMe = $('#last-items-list')[0];
+    observeDOM()( observeMe ,function() {
+        $('#last-items-list .kanji').each(last10Change);
     });
 }
 else if (/review/.test(document.URL)) // Review info page at the beginning and the end of a review
@@ -151,7 +163,7 @@ else if (/lesson\/session/.test(document.URL)) // Lesson and lesson test page
         // Vocable breakdown info
         $("#supplement-voc-breakdown").find('.kanji').each(replaceBreakdown);
     };
-    var replaceBreakdown = function (){
+    var replaceBreakdown = function () {
         if(isOnyomiAll($(this).text())) {
             $(this).attr("title", convertToKata($(this).attr('title')));
         }
@@ -159,8 +171,21 @@ else if (/lesson\/session/.test(document.URL)) // Lesson and lesson test page
     $('#batch-items').click(whenLessonSlides);
 
     //--------- Test Part ---------//
+    answerChecker.oldIsAsciiPresent = answerChecker.isAsciiPresent;
+    answerChecker.isAsciiPresent = function(e) {
+        // this is for trailing N to ン
+        if(e[e.length-1] === 'N') {
+            e = e.substr(0, e.length-1) + 'ン' + e.substr(e.length);
+        }
+        return answerChecker.oldIsAsciiPresent(e);
+    };
+
     answerChecker.oldEvaluate = answerChecker.evaluate;
     answerChecker.evaluate = function(e,t) {
+        // this is for trailing N to ン
+        if(e === "reading" && t[t.length-1] === 'N') {
+            t = t.substr(0, t.length-1) + 'ン' + t.substr(t.length);
+        }
         if(isOnyomiLesson()) {
             for (var i = 0; i < $.jStorage.get('l/currentQuizItem').on.length; i++) {
                 $.jStorage.get('l/currentQuizItem').on[i] = convertToKata($.jStorage.get('l/currentQuizItem').on[i]);
@@ -170,7 +195,6 @@ else if (/lesson\/session/.test(document.URL)) // Lesson and lesson test page
     };
 
     $('#user-response').on('input', function() {
-        console.log($.jStorage);
         if(isOnyomiLesson()) {
             this.value = $(this).val().toUpperCase();
         }
@@ -195,7 +219,20 @@ else if (/lesson\/session/.test(document.URL)) // Lesson and lesson test page
     });
 }
 
-
+// Search result
+if( /dashboard/.test(document.URL) || document.URL == "http://www.wanikani.com/" || document.URL == "https://www.wanikani.com/" || /\/level/.test(document.URL) ||
+   /\/lattice/.test(document.URL) || /\/radicals/.test(document.URL) || /\/kanji/.test(document.URL) || /\/vocabulary/.test(document.URL) ||
+   /\/community/.test(document.URL) || /\/chat/.test(document.URL) ) {
+    var searchChange = function() {
+        if(isOnyomiAll($(this).find('span').text())) {
+            $(this).find('li').eq(0).text(convertToKata($(this).find('li').eq(0).text()));
+        }
+    };
+    var observeMe = $('.search-results')[0];
+    observeDOM()( observeMe ,function() {
+        $('.search-results #kanji-').each(searchChange);
+    });
+}
 
 
 
