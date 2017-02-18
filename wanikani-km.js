@@ -4,7 +4,7 @@
 // @namespace    https://greasyfork.org/en/scripts/26481-wanikani-katakana-madness
 // @include      https://www.wanikani.com/*
 // @include      http://www.wanikani.com/*
-// @version      1.0.1
+// @version      1.0.2
 // @description  Transforms everything related to on'yomi into katakana
 // @run-at       document-end
 // @grant        none
@@ -222,7 +222,7 @@ else if (/lesson\/session/.test(document.URL)) // Lesson and lesson test page
 // Search result
 if( /dashboard/.test(document.URL) || document.URL == "http://www.wanikani.com/" || document.URL == "https://www.wanikani.com/" || /\/level/.test(document.URL) ||
    /\/lattice/.test(document.URL) || /\/radicals/.test(document.URL) || /\/kanji/.test(document.URL) || /\/vocabulary/.test(document.URL) ||
-   /\/community/.test(document.URL) || /\/chat/.test(document.URL) ) {
+   /\/community/.test(document.URL) || /\/chat/.test(document.URL) || /\/account/.test(document.URL) ) {
     var searchChange = function() {
         if(isOnyomiAll($(this).find('span').text())) {
             $(this).find('li').eq(0).text(convertToKata($(this).find('li').eq(0).text()));
