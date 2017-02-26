@@ -4,7 +4,7 @@
 // @namespace    https://greasyfork.org/en/scripts/26481-wanikani-katakana-madness
 // @include      https://www.wanikani.com/*
 // @include      http://www.wanikani.com/*
-// @version      1.0.2
+// @version      1.0.3
 // @description  Transforms everything related to on'yomi into katakana
 // @run-at       document-end
 // @grant        none
