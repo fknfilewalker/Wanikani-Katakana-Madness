@@ -91,13 +91,13 @@ else if (/\/level\//.test(document.URL)) // Level page
 }
 else if (/review\/session/.test(document.URL)) // Review test page
 {
-    answerChecker.oldIsAsciiPresent = answerChecker.isAsciiPresent;
+    answerChecker.oldIsAsciiPresentKM = answerChecker.isAsciiPresent;
     answerChecker.isAsciiPresent = function(e) {
         // this is for trailing N to ン
         if(e[e.length-1] === 'N') {
             e = e.substr(0, e.length-1) + 'ン' + e.substr(e.length);
         }
-        return answerChecker.oldIsAsciiPresent(e);
+        return answerChecker.oldIsAsciiPresentKM(e);
     };
 
     answerChecker.oldEvaluateKM = answerChecker.evaluate;
@@ -171,13 +171,13 @@ else if (/lesson\/session/.test(document.URL)) // Lesson and lesson test page
     $('#batch-items').click(whenLessonSlides);
 
     //--------- Test Part ---------//
-    answerChecker.oldIsAsciiPresent = answerChecker.isAsciiPresent;
+    answerChecker.oldIsAsciiPresentKM = answerChecker.isAsciiPresent;
     answerChecker.isAsciiPresent = function(e) {
         // this is for trailing N to ン
         if(e[e.length-1] === 'N') {
             e = e.substr(0, e.length-1) + 'ン' + e.substr(e.length);
         }
-        return answerChecker.oldIsAsciiPresent(e);
+        return answerChecker.oldIsAsciiPresentKM(e);
     };
 
     answerChecker.oldEvaluateKM = answerChecker.evaluate;
