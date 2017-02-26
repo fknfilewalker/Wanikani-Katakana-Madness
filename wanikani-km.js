@@ -100,7 +100,7 @@ else if (/review\/session/.test(document.URL)) // Review test page
         return answerChecker.oldIsAsciiPresent(e);
     };
 
-    answerChecker.oldEvaluate = answerChecker.evaluate;
+    answerChecker.oldEvaluateKM = answerChecker.evaluate;
     answerChecker.evaluate = function(e,t) {
         //console.log($.jStorage.get('currentItem'));
         // this is for trailing N to ン
@@ -113,7 +113,7 @@ else if (/review\/session/.test(document.URL)) // Review test page
             }
         }
         //console.log($.jStorage.get('currentItem'));
-        return answerChecker.oldEvaluate(e,t);
+        return answerChecker.oldEvaluateKM(e,t);
     };
 
     $('#user-response').on('input', function() {
@@ -180,7 +180,7 @@ else if (/lesson\/session/.test(document.URL)) // Lesson and lesson test page
         return answerChecker.oldIsAsciiPresent(e);
     };
 
-    answerChecker.oldEvaluate = answerChecker.evaluate;
+    answerChecker.oldEvaluateKM = answerChecker.evaluate;
     answerChecker.evaluate = function(e,t) {
         // this is for trailing N to ン
         if(e === "reading" && t[t.length-1] === 'N') {
@@ -191,7 +191,7 @@ else if (/lesson\/session/.test(document.URL)) // Lesson and lesson test page
                 $.jStorage.get('l/currentQuizItem').on[i] = convertToKata($.jStorage.get('l/currentQuizItem').on[i]);
             }
         }
-        return answerChecker.oldEvaluate(e,t);
+        return answerChecker.oldEvaluateKM(e,t);
     };
 
     $('#user-response').on('input', function() {
