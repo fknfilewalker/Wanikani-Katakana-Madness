@@ -4,7 +4,7 @@
 // @namespace    https://greasyfork.org/en/scripts/26481-wanikani-katakana-madness
 // @include      https://www.wanikani.com/*
 // @include      http://www.wanikani.com/*
-// @version      1.0.3
+// @version      1.0.4
 // @description  Transforms everything related to on'yomi into katakana
 // @run-at       document-end
 // @grant        none
@@ -108,6 +108,10 @@ else if (/review\/session/.test(document.URL)) // Review test page
             t = t.substr(0, t.length-1) + 'ン' + t.substr(t.length);
         }
         if(isOnyomiReview()) {
+            // this is for the "WaniKani is looking for the onyomi reading" function
+            for (var i = 0; i < $.jStorage.get('currentItem').kun.length; i++) {
+                $.jStorage.get('currentItem').kun[i] = convertToKata($.jStorage.get('currentItem').kun[i]);
+            }
             for (var i = 0; i < $.jStorage.get('currentItem').on.length; i++) {
                 $.jStorage.get('currentItem').on[i] = convertToKata($.jStorage.get('currentItem').on[i]);
             }
@@ -118,7 +122,7 @@ else if (/review\/session/.test(document.URL)) // Review test page
 
     $('#user-response').on('input', function() {
         if(isOnyomiReview()) {
-            this.value = $(this).val().toUpperCase();
+            this.value = convertToKata($(this).val().toUpperCase());
         }
     });
 
@@ -157,7 +161,7 @@ else if (/lesson\/session/.test(document.URL)) // Lesson and lesson test page
     var whenLessonSlides = function () {
         // Kanji info
         var type = $("#supplement-kan-reading-type").text();
-        if(type == "on'yomi") {
+        if(type === "on'yomi") {
             $('#supplement-kan-reading span').eq(1).text(convertToKata($('#supplement-kan-reading span').eq(1).text()));
         }
         // Vocable breakdown info
@@ -182,11 +186,16 @@ else if (/lesson\/session/.test(document.URL)) // Lesson and lesson test page
 
     answerChecker.oldEvaluateKM = answerChecker.evaluate;
     answerChecker.evaluate = function(e,t) {
+        //console.log($.jStorage.get('l/currentQuizItem'));
         // this is for trailing N to ン
         if(e === "reading" && t[t.length-1] === 'N') {
             t = t.substr(0, t.length-1) + 'ン' + t.substr(t.length);
         }
         if(isOnyomiLesson()) {
+            // this is for the "WaniKani is looking for the onyomi reading" function
+            for (var i = 0; i < $.jStorage.get('l/currentQuizItem').kun.length; i++) {
+                $.jStorage.get('l/currentQuizItem').kun[i] = convertToKata($.jStorage.get('l/currentQuizItem').kun[i]);
+            }
             for (var i = 0; i < $.jStorage.get('l/currentQuizItem').on.length; i++) {
                 $.jStorage.get('l/currentQuizItem').on[i] = convertToKata($.jStorage.get('l/currentQuizItem').on[i]);
             }
@@ -196,7 +205,7 @@ else if (/lesson\/session/.test(document.URL)) // Lesson and lesson test page
 
     $('#user-response').on('input', function() {
         if(isOnyomiLesson()) {
-            this.value = $(this).val().toUpperCase();
+            this.value = convertToKata($(this).val().toUpperCase());
         }
     });
 
@@ -244,8 +253,8 @@ function isOnyomiReview() {
 
     if ("kan" in objCurItem) {
         // Kanji
-        if (strQuestionType == "reading") {
-            if(objCurItem.emph == "onyomi") {
+        if (strQuestionType === "reading") {
+            if(objCurItem.emph === "onyomi") {
                 return true;
             }
         }
@@ -261,8 +270,8 @@ function isOnyomiLesson() {
     if ("kan" in objCurItem)
     {
         // Kanji
-        if (strQuestionType == "reading") {
-            if(objCurItem.emph == "onyomi"){
+        if (strQuestionType === "reading") {
+            if(objCurItem.emph === "onyomi"){
                 return true;
             }
         }
