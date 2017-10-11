@@ -4,7 +4,7 @@
 // @namespace    https://greasyfork.org/en/scripts/26481-wanikani-katakana-madness
 // @include      https://www.wanikani.com/*
 // @include      http://www.wanikani.com/*
-// @version      1.0.5
+// @version      1.0.6
 // @description  Transforms everything related to on'yomi into katakana
 // @run-at       document-end
 // @grant        none
@@ -55,7 +55,7 @@ else if (/\/lattice\/kanji/.test(document.URL)) // Lattice
 else if (/\/kanji\//.test(document.URL)) // Kanji detail page
 {
     var replaceReading = function() {
-        if ($(this).children('h3').text() == "On'yomi")
+        if ($(this).children('h3').text() == "On’yomi")
         {
             $(this).children('p').text(convertToKata($(this).children('p').text()));
         }
@@ -78,7 +78,7 @@ else if (/\/kanji\?difficult/.test(document.URL) || document.URL == "http://www.
     };
 
     var replaceReading = function() {
-        if (isOnyomi($(this).find('.character').text(), difficulty)) $(this).find('li').eq(0).text(convertToKata($(this).find('li').eq(0).text()));
+        if (isOnyomi($(this).find('.character').text().replace(/\s/g,''), difficulty)) $(this).find('li').eq(0).text(convertToKata($(this).find('li').eq(0).text()));
     };
     $('.single-character-grid').each(replaceLevelPortion);
 }
