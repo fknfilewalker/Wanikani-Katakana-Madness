@@ -4,7 +4,7 @@
 // @namespace    https://greasyfork.org/en/scripts/26481-wanikani-katakana-madness
 // @include      https://www.wanikani.com/*
 // @include      http://www.wanikani.com/*
-// @version      1.0.7
+// @version      1.0.8
 // @description  Transforms everything related to on'yomi into katakana
 // @run-at       document-end
 // @grant        none
@@ -96,7 +96,7 @@ else if (/\/level\//.test(document.URL)) // Level page
     var level = document.URL.substring(n + 1);
 
     var replaceReading = function() {
-        if (isOnyomi($(this).children('.character').text(), level))
+        if (isOnyomi($(this).children('.character').text().replace(/\s/g,''), level))
         {
             $(this).find('li').eq(0).text(convertToKata($(this).find('li').eq(0).text()));
         }
@@ -295,7 +295,7 @@ function isOnyomiLesson() {
 
 function isOnyomi(kanji, level)
 {
-    switch(level) {
+    switch(level.toUpperCase()) {
         case 'PLEASANT': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9': case '10':
             return kanjiYomiPLEASANT[kanji];
         case 'PAINFUL': case '11': case '12': case '13': case '14': case '15': case '16': case '17': case '18': case '19': case '20':
